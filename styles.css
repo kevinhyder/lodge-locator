@@ -26,18 +26,17 @@ header > img {
   padding-bottom: 10px;
   padding-right: 30px;
 }
-hr {
-  margin: 5px;
-  width: 570px;
-}
 
 h4 {
+  color: #3D4D72;
   font-family: 'Cinzel', serif;
-  margin-bottom: 10px;
+  font-weight: 700;
+  margin-bottom: 8px;
 }
 
 p {
   font-family: 'Raleway', sans-serif;
+  font-weight: 500;
 }
 
 .col-md-12 {
