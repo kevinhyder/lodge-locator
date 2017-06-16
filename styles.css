@@ -6,7 +6,7 @@
 }
 
 body {
-  background-color: #91959F;
+  background-color: #95a5a6;
   height: 100vh;
 }
 
@@ -14,8 +14,8 @@ header {
   position: relative;
   height: 100px;
   min-width: 850px;
-  background-color: #F8F8F8;
-  color: #3D4D72;
+  background-color: #ecf0f1;
+  color: #34495e;
   font-family: 'Cinzel', serif;
   font-size: 55pt;
   padding-left: 25px;
@@ -28,7 +28,7 @@ header > img {
 }
 
 h4 {
-  color: #3D4D72;
+  color: #34495e;
   font-family: 'Cinzel', serif;
   font-weight: 700;
   margin-bottom: 8px;
@@ -39,6 +39,9 @@ p {
   font-weight: 500;
 }
 
+hr {
+  color: #ecf0f1;
+}
 .col-md-12 {
   height: 115px;
   width: 600px;
@@ -49,10 +52,44 @@ p {
   height: 600px;
   width: 630px;
   float: right;
-  clear: both;
+  clear: left;
   margin: 25px;
 }
 
 #list-title {
   margin: 0;
+}
+
+#filters-container {
+  position: absolute;
+  height: 650px;
+  width: 300px;
+  float: left;
+  margin: 25px;
+}
+#filters-list {
+  position: relative;
+  height: 600px;
+  width: 90%;
+  float: left;
+  clear: right;
+  margin: 0, auto;
+}
+
+#wrapper {
+  margin-left:auto;
+  margin-right:auto;
+  min-width:1000px;
+}
+
+#filters-wrap {
+  float: left;
+  clear: left;
+  padding-top: 200px;
+  max-width: 400px;
+
+}
+
+#filters-wrap.row {
+  width: 90%;
 }
