@@ -25,7 +25,7 @@ var lodgeList = [
   },
 
   { id: 3,
-    name: 'Irvine Valley Lodge #671',
+    name: 'Irvine Valley Lodge No. 671',
     address: '23685 Birtcher Dr ',
     city: 'Lake Forest ',
     state: 'CA, ',
@@ -97,19 +97,39 @@ for (var i = 0; i < len; i++) {
   $listContainer.appendChild($divider)
 }
 
-// function renderChecklist(selection) {
-//   var $selection = document.createElement('div')
-//   var $label = document.createElement('label')
-//   var $input = document.createElement('input')
-//   $selection.appendChild($label)
-//   $label.appendChild($input)
-//   $label.textContent = 'Blue Lodge'
-//   $selection.classList.add('form-check')
-//   $label.classList.add('form-check-label')
-//   $input.classList.add('form-check-input')
-//   $input.type = 'checkbox'
-//
-//   return $selection
-// }
-//
-// var $filtersContainer = document.querySelector('#filters-list')
+function renderChecklist(selection) {
+  var $selection = document.createElement('div')
+  var $label = document.createElement('label')
+  var $input = document.createElement('input')
+  $selection.appendChild($label)
+  $label.appendChild($input)
+  $label.textContent = 'Blue Lodge'
+  $selection.classList.add('form-check')
+  $label.classList.add('form-check-label')
+  $input.classList.add('form-check-input')
+  $input.type = 'checkbox'
+
+  return $selection
+}
+
+var $filtersContainer = document.querySelector('#filters-list')
+
+function filterBodies(lodges, filter) {
+  var $filterLodges = []
+  for (var i = 0; i < lodges.length; i++) {
+    if (lodges[i].body === filter) {
+      $filterLodges.push(lodgeList[i])
+    }
+  }
+  return $filterLodges
+}
+
+function getFilters(checkboxes) {
+  var $getFilters = []
+  for (var i = 0; i , checkboxes.length; i++) {
+    if (checkboxes[i].checked === true) {
+      $getFilters.push(checkboxes[i].value)
+    }
+  }
+  return $getFilters
+}
