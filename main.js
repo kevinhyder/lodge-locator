@@ -1,4 +1,3 @@
-
 var lodgeList = [
   { id: 1,
     name: 'Newport Mesa Lodge No. 604',
@@ -25,7 +24,7 @@ var lodgeList = [
   },
 
   { id: 3,
-    name: 'Irvine Valley Lodge #671',
+    name: 'Irvine Valley Lodge No. 671',
     address: '23685 Birtcher Dr ',
     city: 'Lake Forest ',
     state: 'CA, ',
@@ -61,6 +60,9 @@ var lodgeList = [
   }
 ]
 
+var $lodgesList = document.querySelector('#lodges-list')
+
+
 function renderLodge(lodge) {
   var $lodge = document.createElement('div')
   var $column = document.createElement('div')
@@ -87,12 +89,63 @@ function renderLodge(lodge) {
   return $lodge
 }
 
-var $listContainer = document.querySelector('#list-container')
 var len = lodgeList.length
 
 for (var i = 0; i < len; i++) {
   var $lodge = renderLodge(lodgeList[i])
-  $listContainer.appendChild($lodge)
+  $lodgesList.appendChild($lodge)
   var $divider = document.createElement('hr')
-  $listContainer.appendChild($divider)
+  $lodgesList.appendChild($divider)
+}
+
+function filterByBody(lodges, bodyName) {
+  var matches = []
+  for (var i = 0; i < lodges.length; i++) {
+    if (lodges[i].body === bodyName) {
+      matches.push(lodges[i])
+    }
+  }
+  return matches
+}
+
+function filterByBodies(lodges, bodies) {
+  var allMatches = []
+  for (var i = 0; i < bodies.length; i++) {
+    var $matches = filterByBody(lodges, bodies[i])
+    for (var j = 0; j < $matches.length; j++) {
+      allMatches.push($matches[j])
+    }
+  }
+  return allMatches
+}
+
+function getFilters(checkboxes) {
+  var filters = []
+  for (var i = 0; i < checkboxes.length; i++) {
+    if (checkboxes[i].checked === true) {
+      filters.push(checkboxes[i].value)
+    }
+  }
+  return filters
+}
+
+
+function handleClick() {
+  $lodgesList.innerHTML = ''
+  var $checkboxes = document.getElementsByClassName('form-check-input')
+  var filters = getFilters($checkboxes)
+
+  lodgeList.forEach(function(lodge) {
+    if (filters.indexOf(lodge.body) > -1) {
+      var $lodgeDiv = renderLodge(lodge)
+      $lodgesList.appendChild($lodgeDiv)
+      var $divider = document.createElement('hr')
+      $lodgesList.appendChild($divider)
+    }
+  })
+}
+
+var checkboxes = document.querySelectorAll('input[type=checkbox]');
+for(var i = 0; i < checkboxes.length; i++) {
+  checkboxes[i].addEventListener('change', handleClick)
 }
