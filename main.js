@@ -150,7 +150,8 @@ var checkbox = document.querySelector("input[name=checkbox]")
 checkbox.onchange = function() {
 if(checkbox.checked == true) {
   handleClick()
-  } else {
-    null
+  }
+else {
+  null
   }
 }
