@@ -61,6 +61,9 @@ var lodgeList = [
   }
 ]
 
+var $lodgesList = document.querySelector('#lodges-list')
+
+
 function renderLodge(lodge) {
   var $lodge = document.createElement('div')
   var $column = document.createElement('div')
@@ -87,49 +90,58 @@ function renderLodge(lodge) {
   return $lodge
 }
 
-var $listContainer = document.querySelector('#list-container')
 var len = lodgeList.length
 
 for (var i = 0; i < len; i++) {
   var $lodge = renderLodge(lodgeList[i])
-  $listContainer.appendChild($lodge)
+  $lodgesList.appendChild($lodge)
   var $divider = document.createElement('hr')
-  $listContainer.appendChild($divider)
+  $lodgesList.appendChild($divider)
 }
 
-function renderChecklist(selection) {
-  var $selection = document.createElement('div')
-  var $label = document.createElement('label')
-  var $input = document.createElement('input')
-  $selection.appendChild($label)
-  $label.appendChild($input)
-  $label.textContent = 'Blue Lodge'
-  $selection.classList.add('form-check')
-  $label.classList.add('form-check-label')
-  $input.classList.add('form-check-input')
-  $input.type = 'checkbox'
-
-  return $selection
-}
-
-var $filtersContainer = document.querySelector('#filters-list')
-
-function filterBodies(lodges, filter) {
-  var $filterLodges = []
+function filterByBody(lodges, bodyName) {
+  var matches = []
   for (var i = 0; i < lodges.length; i++) {
-    if (lodges[i].body === filter) {
-      $filterLodges.push(lodgeList[i])
+    if (lodges[i].body === bodyName) {
+      matches.push(lodges[i])
     }
   }
-  return $filterLodges
+  return matches
+}
+
+function filterByBodies(lodges, bodies) {
+  var allMatches = []
+  for (var i = 0; i < bodies.length; i++) {
+    var $matches = filterByBody(lodges, bodies[i])
+    for (var j = 0; j < $matches.length; j++) {
+      allMatches.push($matches[j])
+    }
+  }
+  return allMatches
 }
 
 function getFilters(checkboxes) {
-  var $getFilters = []
-  for (var i = 0; i , checkboxes.length; i++) {
+  var filters = []
+  for (var i = 0; i < checkboxes.length; i++) {
     if (checkboxes[i].checked === true) {
-      $getFilters.push(checkboxes[i].value)
+      filters.push(checkboxes[i].value)
     }
   }
-  return $getFilters
+  return filters
+}
+
+
+function handleClick() {
+  $lodgesList.innerHTML = ''
+  var $checkboxes = document.getElementsByClassName('form-check-input')
+  var filters = getFilters($checkboxes)
+
+  lodgeList.forEach(function(lodge) {
+    if (filters.indexOf(lodge.body) > -1) {
+      var $lodgeDiv = renderLodge(lodge)
+      $lodgesList.appendChild($lodgeDiv)
+      var $divider = document.createElement('hr')
+      $lodgesList.appendChild($divider)
+    }
+  })
 }
