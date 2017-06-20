@@ -1,4 +1,3 @@
-
 var lodgeList = [
   { id: 1,
     name: 'Newport Mesa Lodge No. 604',
@@ -146,12 +145,7 @@ function handleClick() {
   })
 }
 
-var checkbox = document.querySelector("input[name=checkbox]")
-checkbox.onchange = function() {
-if(checkbox.checked == true) {
-  handleClick()
-  }
-else {
-  null
-  }
+var checkboxes = document.querySelectorAll('input[type=checkbox]');
+for(var i = 0; i < checkboxes.length; i++) {
+  checkboxes[i].addEventListener('change', handleClick)
 }
