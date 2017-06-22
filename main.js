@@ -1,7 +1,7 @@
 var lodgeList = [
   { id: 1,
     name: 'Newport Mesa Lodge No. 604',
-    address: '1401 E 15th St  ',
+    address: '1401 E 15th St.  ',
     city: 'Newport Beach ',
     state: 'CA, ',
     zip: '92663',
@@ -13,7 +13,7 @@ var lodgeList = [
 
   { id: 2,
     name: 'Huntington Beach Lodge No. 380',
-    address: '601 Palm Ave ',
+    address: '601 Palm Ave. ',
     city: 'Huntington Beach ',
     state: 'CA, ',
     zip: '92648',
@@ -25,7 +25,7 @@ var lodgeList = [
 
   { id: 3,
     name: 'Irvine Valley Lodge No. 671',
-    address: '23685 Birtcher Dr ',
+    address: '23685 Birtcher Dr. ',
     city: 'Lake Forest ',
     state: 'CA, ',
     zip: '92630',
@@ -44,7 +44,7 @@ var lodgeList = [
     phone: '(949) 515-8788 ',
     website: 'www.ocyorkrite.com',
     body: 'York Rite',
-    day: 'Monday, Saturday'
+    day: 'Monday' && 'Saturday',
   },
 
   { id: 5,
@@ -57,11 +57,72 @@ var lodgeList = [
     website: 'www.ocscottishrite.org',
     body: 'Scottish Rite',
     day: 'Monday'
+  },
+
+  { id: 6,
+    name: 'Wiley Kimbrough Lodge No. 91',
+    address: '1403 W. 5th St. ',
+    city: 'Santa Ana ',
+    state: 'CA, ',
+    zip: '92702',
+    phone: '(714) 543-3075 ',
+    website: 'www.wlk91.org',
+    body: 'Prince Hall Affiliated',
+    day: 'Wednesday'
+  },
+
+  { id: 7,
+    name: 'Sunset Lodge No. 26',
+    address: '516 W Esther St. ',
+    city: 'Long Beach ',
+    state: 'CA, ',
+    zip: '90813',
+    phone: '(562) 437-2198 ',
+    website: 'www.facebook.com/pages/Sunset-Lodge-No-26-F-AM/121112964569769',
+    body: 'Prince Hall Affiliated',
+    day: 'Monday'
+  },
+
+  { id: 8,
+    name: 'El Bekal Temple',
+    address: '1320 S Sanderson Ave. ',
+    city: 'Anaheim ',
+    state: 'CA, ',
+    zip: '92806',
+    phone: '(714) 563-9111 ',
+    website: 'www.elbekal.com',
+    body: 'Shrine',
+    day: 'Monday'
+  },
+
+    { id: 9,
+    name: 'Cinema Grotto',
+    address: '19310 Avenue of the Oaks ',
+    city: 'Newhall ',
+    state: 'CA, ',
+    zip: '91321',
+    phone: 'please email ',
+    website: 'www.cinemagrotto.com/',
+    body: 'Grotto',
+    day: 'Monday'
+  },
+
+  { id: 10,
+    name: 'Scepter Chapter No. 163',
+    address: '71 Plaza Square ',
+    city: 'Orange ',
+    state: 'CA, ',
+    zip: '92866',
+    phone: '(714) 538-1443 ',
+    website: 'www.scepter163.org',
+    body: 'Eastern Star',
+    day: 'Thursday'
   }
 ]
 
 var $lodgesList = document.querySelector('#lodges-list')
-
+var $checkboxes = document.querySelectorAll('input[type=checkbox]')
+var $buttonBar = document.querySelector('#day-filter')
 
 function renderLodge(lodge) {
   var $lodge = document.createElement('div')
@@ -109,6 +170,9 @@ function filterByBody(lodges, bodyName) {
 }
 
 function filterByBodies(lodges, bodies) {
+  if (bodies.length === 0) {
+    return lodges
+  }
   var allMatches = []
   for (var i = 0; i < bodies.length; i++) {
     var $matches = filterByBody(lodges, bodies[i])
@@ -119,33 +183,74 @@ function filterByBodies(lodges, bodies) {
   return allMatches
 }
 
-function getFilters(checkboxes) {
-  var filters = []
-  for (var i = 0; i < checkboxes.length; i++) {
-    if (checkboxes[i].checked === true) {
-      filters.push(checkboxes[i].value)
+function filterByDay(lodges, meetingDay) {
+  if (meetingDay === undefined) {
+    return lodges
+  }
+  var matchesByDay = []
+  for (var i = 0; i < lodges.length; i++) {
+    if (lodges[i].day === meetingDay) {
+      matchesByDay.push(lodges[i])
     }
   }
-  return filters
+  return matchesByDay
 }
 
+function getBodies(checkboxes) {
+  var bodies = []
+  for (var i = 0; i < checkboxes.length; i++) {
+    if (checkboxes[i].checked === true) {
+      bodies.push(checkboxes[i].value)
+    }
+  }
+  return bodies
+}
+
+function getDay(buttons) {
+  for (var i = 0; i < buttons.children.length; i++) {
+    if (buttons.children[i].classList.contains('selected-day')) {
+      return buttons.children[i].getAttribute('value')
+    }
+  }
+}
 
 function handleClick() {
   $lodgesList.innerHTML = ''
-  var $checkboxes = document.getElementsByClassName('form-check-input')
-  var filters = getFilters($checkboxes)
-
-  lodgeList.forEach(function(lodge) {
-    if (filters.indexOf(lodge.body) > -1) {
-      var $lodgeDiv = renderLodge(lodge)
-      $lodgesList.appendChild($lodgeDiv)
-      var $divider = document.createElement('hr')
-      $lodgesList.appendChild($divider)
-    }
+  var bodies = getBodies($checkboxes)
+  var meetingDay = getDay($buttonBar)
+  var matches = filterLodges(lodgeList, bodies, meetingDay)
+  $lodgesList.innerHTML = ''
+  matches.forEach(function(lodge) {
+    var $lodgeDiv = renderLodge(lodge)
+    $lodgesList.appendChild($lodgeDiv)
+    var $divider = document.createElement('hr')
+    $lodgesList.appendChild($divider)
   })
 }
 
-var checkboxes = document.querySelectorAll('input[type=checkbox]');
-for(var i = 0; i < checkboxes.length; i++) {
-  checkboxes[i].addEventListener('change', handleClick)
+for (var i = 0; i < $checkboxes.length; i++) {
+  $checkboxes[i].addEventListener('change', handleClick)
+}
+
+$buttonBar.addEventListener('click', function(event) {
+  for (var i = 0; i < $buttonBar.children.length; i++) {
+    $buttonBar.children[i].classList.remove('selected-day')
+  }
+  event.target.classList.add('selected-day')
+  var bodies = getBodies($checkboxes)
+  var meetingDay = getDay($buttonBar)
+  var matches = filterLodges(lodgeList, bodies, meetingDay)
+  $lodgesList.innerHTML = ''
+  matches.forEach(function(lodge) {
+    var $lodgeDiv = renderLodge(lodge)
+    $lodgesList.appendChild($lodgeDiv)
+    var $divider = document.createElement('hr')
+    $lodgesList.appendChild($divider)
+  })
+})
+
+function filterLodges(lodges, bodies, meetingDay) {
+  var dayMatches = filterByDay(lodges, meetingDay)
+  var bodyMatches = filterByBodies(dayMatches, bodies)
+  return bodyMatches
 }
