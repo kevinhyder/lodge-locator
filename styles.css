@@ -47,6 +47,19 @@ hr {
   width: 600px;
 }
 
+.btn-primary {
+    color: #ecf0f1;
+    background-color: #34495e;
+    border-color: #2c3f51;
+}
+
+.selected-day {
+  color: #fff;
+  background-color: #286090;
+  border-color: #122b40;
+  outline: none;
+}
+
 #list-container {
   position: relative;
   height: 600px;
